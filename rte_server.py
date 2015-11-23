@@ -88,7 +88,7 @@ class TcpServer:
         """Listen for a connection on port."""
 
         if not self._is_connected:
-            if True:
+            try:
                 self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self._socket.bind(('', self._port))
                 self._socket.listen(1)
@@ -96,7 +96,7 @@ class TcpServer:
                 self._client = self._socket.accept()
                 print "...{0} connected!".format(self._client[1])
                 self._is_connected = True
-            else:# socket.error:
+            except socket.error:
                 raise RuntimeError(
                     "Listening on port {0} failed!".format(self._port))
 
@@ -183,7 +183,7 @@ class TcpServer:
             pass
 
     def close(self):
-        """Close the connection to the server."""
+        """Close the connection to the client."""
 
         if self._is_connected:
             self._client[0].close()
